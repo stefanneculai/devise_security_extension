@@ -3,7 +3,6 @@ module DeviseSecurityExtension::Patches
     extend ActiveSupport::Concern
     included do
       define_method :create do
-        puts resource_name.to_s.capitalize.constantize.devise_modules.include?(:security_questionable)
         if (resource_name.to_s.capitalize.constantize.devise_modules.include?(:security_questionable) == false or valid_captcha? params[:captcha]) 
           puts 'da'
           resource = warden.authenticate!(auth_options)
