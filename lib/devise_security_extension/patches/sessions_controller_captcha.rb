@@ -3,8 +3,11 @@ module DeviseSecurityExtension::Patches
     extend ActiveSupport::Concern
     included do
       define_method :create do
-        if (valid_captcha? params[:captcha] || !warden.security_questionable?) 
+        if (valid_captcha? params[:captcha]) 
           resource = warden.authenticate!(auth_options)
+          puts '========'
+          puts resource
+          puts resource_name
           set_flash_message(:notice, :signed_in) if is_navigational_format?
           sign_in(resource_name, resource)
           respond_with resource, :location => after_sign_in_path_for(resource)
